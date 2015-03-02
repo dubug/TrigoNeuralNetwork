@@ -12,9 +12,6 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.fu
 
 // Add dependency on ScalaFX library
 libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.2.2"
-//libraryDependencies ++= List(
-//  "org.scalafx" % "scalafx_2.11" % "8.0.0-R4"
-//)
 
 // Add dependency on JavaFX library (only for Java 7)
 unmanagedJars in Compile += Attributed.blank(file(scala.util.Properties.javaHome) / "/lib/jfxrt.jar")
@@ -23,4 +20,4 @@ unmanagedJars in Compile += Attributed.blank(file(scala.util.Properties.javaHome
 fork := true
 
 // Include /src/resources in classpath
-unmanagedClasspath in Runtime <+= (baseDirectory) map { bd => Attributed.blank(bd / "resources") }
+unmanagedClasspath in Runtime <+= baseDirectory map { bd => Attributed.blank(bd / "resources") }

@@ -21,7 +21,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button id="learnButton" fx:id="learnButton" mnemonicParsing="false" text="Learn">
+                              <Button id="learnButton" fx:id="learnButton" mnemonicParsing="false" onAction="#onLearn" text="Learn">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -36,7 +36,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField id="h1TextField" fx:id="h1TextField">
+                              <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Number of neurons in the input layer">
                                  <HBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </HBox.margin>
@@ -46,7 +46,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField id="h2TextField" fx:id="h2TextField">
+                              <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField">
                                  <HBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </HBox.margin>
@@ -56,7 +56,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <TextField id="h3TextField" fx:id="h3TextField">
+                              <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField">
                                  <HBox.margin>
                                     <Insets bottom="5.0" top="5.0" />
                                  </HBox.margin>
