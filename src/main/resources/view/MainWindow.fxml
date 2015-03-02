@@ -6,164 +6,160 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="463.0" minWidth="925.0" text="Neural Network Trainer" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="483.0" minWidth="925.0" prefHeight="513.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
    <content>
-      <ScrollPane>
-         <content>
-            <AnchorPane>
+      <AnchorPane>
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox maxWidth="1.7976931348623157E308">
                      <children>
-                        <HBox>
-                           <children>
-                              <Button id="initButton" fx:id="initButton" mnemonicParsing="false" text="Init" onAction="#onInit" >
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button id="learnButton" fx:id="learnButton" mnemonicParsing="false" onAction="#onLearn" text="Learn">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <ComboBox id="functionComboBox" fx:id="functionComboBox" prefWidth="150.0">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </ComboBox>
-                              <Label id="h1Label" text="H1 : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Number of neurons in the input layer">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label id="h2Label" text="H2 : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label id="h3Label" text="H3 : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <Label id="inputsLabel" text="Inputs : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="inputsTextField" fx:id="inputsTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label text="Outputs : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="outputsTextFields" fx:id="outputsTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label id="deltaLabel" text="Delta : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="deltaTextField" fx:id="deltaTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label id="delayLabel" text="Delay : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="delayTextField" fx:id="delayTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <LineChart fx:id="mainGraph" prefHeight="329.0" prefWidth="500.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                        <HBox>
-                           <children>
-                              <Label text="Momentum : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="momentumTextField" fx:id="momentumTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label text="Learning rate : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="learningRateTextField" fx:id="learningRateTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label text="Iterations : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField id="iterationsTextField" fx:id="iterationsTextField">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Label prefHeight="17.0" prefWidth="88.0" text="Total iterations : ">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label id="displayTotalIterationsTextField" fx:id="displayTotalIterationsTextField" text="DisplayTotalIterations">
-                                 <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                           </children>
-                        </HBox>
+                        <Button id="initButton" fx:id="initButton" mnemonicParsing="false" onAction="#onInit" text="Init">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button id="learnButton" fx:id="learnButton" mnemonicParsing="false" onAction="#onLearn" text="Learn">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <ComboBox id="functionComboBox" fx:id="functionComboBox" prefWidth="150.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                        <Label id="h1Label" text="H1 : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Number of neurons in the input layer">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label id="h2Label" text="H2 : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label id="h3Label" text="H3 : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label id="inputsLabel" text="Inputs : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="inputsTextField" fx:id="inputsTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Outputs : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="outputsTextFields" fx:id="outputsTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label id="deltaLabel" text="Delta : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="deltaTextField" fx:id="deltaTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label id="delayLabel" text="Delay : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="delayTextField" fx:id="delayTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <LineChart fx:id="mainGraph" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <HBox maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label text="Momentum : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="momentumTextField" fx:id="momentumTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Learning rate : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="learningRateTextField" fx:id="learningRateTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Iterations : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField id="iterationsTextField" fx:id="iterationsTextField">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="17.0" prefWidth="88.0" text="Total iterations : ">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label id="displayTotalIterationsTextField" fx:id="displayTotalIterationsTextField" text="DisplayTotalIterations">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
-         </content>
-      </ScrollPane>
+            </VBox>
+         </children>
+      </AnchorPane>
    </content>
-</TitledPane>
+</ScrollPane>

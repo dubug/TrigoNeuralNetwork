@@ -6,7 +6,7 @@ import model.function._
 
 import scala.reflect.runtime.universe.typeOf
 import scalafx.Includes._
-import scalafx.application.{JFXApp, Platform}
+import scalafx.application.JFXApp
 import scalafx.event.ActionEvent
 import scalafx.scene.Scene
 import scalafx.scene.control.{ComboBox, TextField}
@@ -19,12 +19,11 @@ import scalafxml.core.{DependenciesByType, FXMLView}
  * Created by Yves on 25.02.2015.
  */
 @sfxml
-class MainWindowController(
-                            private val h1TextField: TextField,
-                            private val h2TextField: TextField,
-                            private val h3TextField: TextField,
-                            private val functionComboBox: ComboBox[MathematicalFunction],
-                            private val mathematicalFunctions: MathematicalFunctions) {
+class MainWindowController(private val h1TextField: TextField,
+                           private val h2TextField: TextField,
+                           private val h3TextField: TextField,
+                           private val functionComboBox: ComboBox[MathematicalFunction],
+                           private val mathematicalFunctions: MathematicalFunctions) {
 
   // Filling the combo box
   for (converter <- mathematicalFunctions.available) {
@@ -61,9 +60,9 @@ class MainWindowController(
    */
 
   // The following conflicts with the data binding above
- /* def onFunctionComboBox(event: ActionEvent) {
-    println("Function Combo Box")
-  }*/
+  /* def onFunctionComboBox(event: ActionEvent) {
+     println("Function Combo Box")
+   }*/
 
   /**
    * Text fields event handlers

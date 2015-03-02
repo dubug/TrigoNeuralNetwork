@@ -17,12 +17,7 @@ class MathematicalFunctions(mathematicalFunctions: MathematicalFunction*) {
   var delta: Double = .0
   var startx: Double = 0.0
   var perceptron: Perceptron = null
-  val NONE: Int = 0
-  val SINUS: Int = 1
-  val COSINUS: Int = 2
-  val COMPLEX: Int = 3
-  val CHAOS: Int = 4
-  var function: Int = COSINUS
+  var function = Cosine
 }
 
 trait MathematicalFunction {
