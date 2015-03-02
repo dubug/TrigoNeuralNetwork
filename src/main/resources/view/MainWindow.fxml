@@ -34,7 +34,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Number of neurons in the input layer">
+                        <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Neurons in input layer" text="1">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -44,7 +44,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField">
+                        <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField" promptText="Neurons in hidden layer">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -54,7 +54,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField">
+                        <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField" promptText="Neurons in output layer">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -68,7 +68,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="inputsTextField" fx:id="inputsTextField">
+                        <TextField id="inputsTextField" fx:id="inputsTextField" text="2">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -78,7 +78,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="outputsTextFields" fx:id="outputsTextField">
+                        <TextField id="outputsTextFields" fx:id="outputsTextField" text="1">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -88,7 +88,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="deltaTextField" fx:id="deltaTextField">
+                        <TextField id="deltaTextField" fx:id="deltaTextField" text="0.2">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -98,7 +98,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="delayTextField" fx:id="delayTextField">
+                        <TextField id="delayTextField" fx:id="delayTextField" text="0.1">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -120,7 +120,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="momentumTextField" fx:id="momentumTextField">
+                        <TextField id="momentumTextField" fx:id="momentumTextField" text="0.2">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -130,7 +130,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="learningRateTextField" fx:id="learningRateTextField">
+                        <TextField id="learningRateTextField" fx:id="learningRateTextField" text="0.2">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -140,17 +140,17 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="iterationsTextField" fx:id="iterationsTextField">
+                        <TextField id="iterationsTextField" fx:id="iterationsTextField" text="10">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Label prefHeight="17.0" prefWidth="88.0" text="Total iterations : ">
+                        <Label prefHeight="17.0" prefWidth="92.0" text="Total iterations : ">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Label id="displayTotalIterationsTextField" fx:id="displayTotalIterationsTextField" text="DisplayTotalIterations">
+                        <Label id="displayTotalIterationsTextField" fx:id="displayTotalIterationsLabel" text="0">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>

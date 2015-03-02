@@ -21,19 +21,10 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.4" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.3" level="project" />
-    <orderEntry type="library" name="SBT: org.scalafx:scalafx_2.11:8.0.20-R6" level="project" />
-    <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-macros-sfx8_2.11:0.2.2" level="project" />
-    <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-sfx8_2.11:0.2.2" level="project" />
-    <orderEntry type="module-library">
-      <library name="SBT: unmanaged-jars">
-        <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.7.0_10/jre/lib/jfxrt.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalafx:scalafx_2.11:8.0.20-R6:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-macros-sfx8_2.11:0.2.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-sfx8_2.11:0.2.2:jar" level="project" />
   </component>
 </module>
