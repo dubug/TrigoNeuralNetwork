@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <parameters>
+      <parameter value="–explaintypes" />
+    </parameters>
+    <plugins>
+      <plugin path="$USER_HOME$/.ivy2/cache/org.scalamacros/paradise_2.11.4/jars/paradise_2.11.4-2.0.1.jar" />
+      <plugin path="$USER_HOME$/.ivy2/cache/org.scalamacros/paradise_2.10.4/jars/paradise_2.10.4-2.0.1.jar" />
+      <plugin path="C:\Users\Yves\.ivy2\cache\org.scalamacros\paradise_2.11.4\jars\paradise_2.11.4-2.0.1.jar" />
+    </plugins>
+  </component>
+</project>
