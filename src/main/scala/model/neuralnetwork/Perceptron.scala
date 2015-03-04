@@ -1,6 +1,8 @@
 package model.neuralnetwork
 
 /**
+ * Multi layer perceptron implementation.
+ *
  * Created by Yves on 25.02.2015.
  */
 class Perceptron {
@@ -26,6 +28,133 @@ class Perceptron {
     error = 0.0
   }
 
+/*
+  def initPerceptron {
+    var hid= new Array[Int](3)
+    var nLayer: Int = 0
+    var i: Int = 0
+    var j: Int = 0
+    var k: Int = 0
+    var text: String = null
+    nLayer = 0
+    {
+      i = 0
+      while (i < 3) {
+        {
+          text = hiddenTF(i).getText
+          if ("" == text) hid(i) = 0
+          else hid(i) = (Integer.valueOf(text)).intValue
+          if (hid(i) != 0) {
+            val s: String = "H" + String.valueOf(i) + "|"
+            addLayer(hid(i), s)
+            nLayer += 1
+          }
+        }
+        ({
+          i += 1; i - 1
+        })
+      }
+    }
+    {
+      j = 0
+      while (j < nLayer) {
+        {
+          i = 0
+          while (i < hid(j)) {
+            biasConnect(j + 1, i)
+            ({
+              i += 1; i - 1
+            })
+          }
+        }
+        ({
+          j += 1; j - 1
+        })
+      }
+    }
+    biasConnect(nLayer + 1, 0)
+    if (nLayer == 0) {
+      i = 0
+      while (i < n_in) {
+        {
+          j = 0
+          while (j < n_out) {
+            connect(0, i, 1, j)
+            ({
+              j += 1; j - 1
+            })
+          }
+        }
+        ({
+          i += 1; i - 1
+        })
+      }
+    }
+    else {
+      {
+        i = 0
+        while (i < hid(0)) {
+          {
+            j = 0
+            while (j < n_in) {
+              connect(0, j, 1, i)
+              ({
+                j += 1; j - 1
+              })
+            }
+          }
+          ({
+            i += 1; i - 1
+          })
+        }
+      }
+      {
+        k = 0
+        while (k < nLayer - 1) {
+          {
+            i = 0
+            while (i < hid(k)) {
+              {
+                j = 0
+                while (j < hid(k + 1)) {
+                  connect(k + 1, i, k + 2, j)
+                  ({
+                    j += 1; j - 1
+                  })
+                }
+              }
+              ({
+                i += 1; i - 1
+              })
+            }
+          }
+          ({
+            k += 1; k - 1
+          })
+        }
+      }
+      {
+        i = 0
+        while (i < hid(nLayer - 1)) {
+          {
+            j = 0
+            while (j < n_out) {
+              connect(nLayer, i, nLayer + 1, j)
+              ({
+                j += 1; j - 1
+              })
+            }
+          }
+          ({
+            i += 1; i - 1
+          })
+        }
+      }
+    }
+    functionCanvas.setPerceptron(perceptron)
+  }
+*/
+
   def addLayer(n: Int, name: String) {
     layers = layers :+ new Layer(name, n)
   }
@@ -40,7 +169,7 @@ class Perceptron {
     new Synapse(inputLayer.getNeuron(inputLayer.size - 1), getLayer(destLayer).getNeuron(destNeuron))
   }
 
-  def removeSamples {
+  def removeSamples() {
     inputSamples = Vector.empty
     outputSamples = Vector.empty
   }
@@ -50,11 +179,11 @@ class Perceptron {
     outputSamples = outputSamples :+ o
   }
 
-  def printSamples {
+  def printSamples() {
     System.out.println(inputSamples + "->" + outputSamples)
   }
 
-  def removeCV {
+  def removeCV() {
     inputCV = Vector.empty
     outputCV = Vector.empty
   }
@@ -71,7 +200,7 @@ class Perceptron {
    */
   def recognize(iS: Vector[Double]): Vector[Double] = {
     initInputs(iS)
-    propagate
+    propagate()
     getOutput
   }
 
@@ -86,7 +215,7 @@ class Perceptron {
     }
   }
 
-  def test {
+  def test() {
     error = 0.0
     for ((iS, oS) <- inputCV zip outputCV) {
       initInputs(iS)
@@ -97,7 +226,7 @@ class Perceptron {
 
   def learnPattern(iS: Vector[Double], oS: Vector[Double]) {
     initInputs(iS)
-    propagate
+    propagate()
     bpAdjustWeights(oS)
   }
 
@@ -106,13 +235,13 @@ class Perceptron {
     for (iter <- 0 to iS.length)
       inputLayer.getNeuron(iter).output = iS(iter)
     // Bias
-    inputLayer.getNeuron(inputLayer.size).output = 1.0;
+    inputLayer.getNeuron(inputLayer.size).output = 1.0
   }
 
   def propagate() {
     // Skip the input layer
     for (iter <- 1 to layers.length)
-      layers(iter).computeOutputs
+      layers(iter).computeOutputs()
   }
 
   def getOutput: Vector[Double] = {
@@ -129,22 +258,20 @@ class Perceptron {
     sum / 2.0
   }
 
-  def currentError: Double = {
-    return error
-  }
+  def currentError: Double = error
 
   def bpAdjustWeights(oS: Vector[Double]) {
     outputLayer.computeBackpropDeltas(oS)
     for (iter <- layers.size - 2 to 1) {
       layers(iter).computeBackpropDeltas()
     }
-    outputLayer.computeWeights
+    outputLayer.computeWeights()
     for (iter <- layers.size - 2 to 1) {
-      layers(iter).computeWeights
+      layers(iter).computeWeights()
     }
   }
 
-  def print {
-    layers foreach (_.print)
+  def print() {
+    layers foreach (_.print())
   }
 }

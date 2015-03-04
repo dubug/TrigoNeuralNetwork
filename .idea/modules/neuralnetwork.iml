@@ -26,5 +26,8 @@
     <orderEntry type="library" name="SBT: org.scalafx:scalafx_2.11:8.0.20-R6:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-macros-sfx8_2.11:0.2.2:jar" level="project" />
     <orderEntry type="library" name="SBT: org.scalafx:scalafxml-core-sfx8_2.11:0.2.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.clapper:grizzled-slf4j_2.11:1.0.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.slf4j:slf4j-api:1.7.7:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.slf4j:slf4j-simple:1.7.5:jar" level="project" />
   </component>
 </module>

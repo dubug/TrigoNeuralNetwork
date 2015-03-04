@@ -3,7 +3,6 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="483.0" minWidth="925.0" prefHeight="513.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
@@ -34,7 +33,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="Neurons in input layer" text="1">
+                        <TextField id="h1TextField" fx:id="h1TextField" onAction="#onH1TextField" promptText="1st hidden layer" text="1">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -44,7 +43,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField" promptText="Neurons in hidden layer">
+                        <TextField id="h2TextField" fx:id="h2TextField" onAction="#onH2TextField" promptText="2nd hidden layer">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -54,7 +53,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField" promptText="Neurons in output layer">
+                        <TextField id="h3TextField" fx:id="h3TextField" onAction="#onH3TextField" promptText="3rd hidden layer">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -105,7 +104,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <LineChart fx:id="mainGraph" VBox.vgrow="ALWAYS">
+                  <LineChart fx:id="functionLineChart" VBox.vgrow="ALWAYS">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
