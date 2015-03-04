@@ -1,8 +1,7 @@
 package controller
 
-import model.function._
-import model.neuralnetwork.Perceptron
 import grizzled.slf4j.Logging
+import model.function._
 
 import scala.reflect.runtime.universe.typeOf
 import scalafx.Includes._
@@ -26,22 +25,27 @@ class MainWindowController(private val h1TextField: TextField,
                            private val inputsTextField: TextField,
                            private val outputsTextField: TextField,
                            private val deltaTextField: TextField,
+                           private val functionLineChart: LineChart[Number, Number],
                            private val momentumTextField: TextField,
                            private val learningRateTextField: TextField,
                            private val iterationsTextField: TextField,
                            private val delayTextField: TextField,
                            private val displayTotalIterationsLabel: Label,
                            private val functionComboBox: ComboBox[MathematicalFunction],
-                           private val functionLineChart: FunctionLineChart,
-                           private val mathematicalFunctions: MathematicalFunctions,
-                           private val perceptron: Perceptron) extends Logging {
+                           private val mathematicalFunctions: MathematicalFunctions) extends Logging {
   var hiddenLayers = Vector(1, 0, 0)
+
+  //  @javafx.fxml.FXML
+  //  var functionLineChart: LineChart[Number, Number]=null
 
   // Filling the combo box
   for (converter <- mathematicalFunctions.available) {
     functionComboBox += converter
   }
   functionComboBox.getSelectionModel.selectFirst()
+
+  // Create the line chart
+  var managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,functionComboBox.getSelectionModel.getSelectedItem)
 
   // Data binding between the functionComboBox and H2 and H1 text fields
   //  h1TextField.text <== new StringBinding {
@@ -82,23 +86,23 @@ class MainWindowController(private val h1TextField: TextField,
   def onH1TextField(event: ActionEvent) {
     debug("H1 text field event handler")
     // Why do I have to use asInstanceOf when the method returns always Int?
-    hiddenLayers=hiddenLayers.updated(0, stringToPositiveInt(h1TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(0, stringToPositiveInt(h1TextField.text.value))
     h1TextField.setText(hiddenLayers(0).toString)
-    logger.debug("layers"+hiddenLayers)
+    logger.debug("layers" + hiddenLayers)
   }
 
   def onH2TextField(event: ActionEvent) {
     debug("H2 text field event handler")
-    hiddenLayers=hiddenLayers.updated(1, stringToPositiveInt(h2TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(1, stringToPositiveInt(h2TextField.text.value))
     h1TextField.setText(hiddenLayers(1).toString)
-    debug("layers"+hiddenLayers)
+    debug("layers" + hiddenLayers)
   }
 
   def onH3TextField(event: ActionEvent) {
     debug("H3 text field event handler")
-    hiddenLayers=hiddenLayers.updated(2, stringToPositiveInt(h3TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(2, stringToPositiveInt(h3TextField.text.value))
     h1TextField.setText(hiddenLayers(2).toString)
-    debug("layers"+hiddenLayers)
+    debug("layers" + hiddenLayers)
   }
 
   def stringToPositiveDouble(input: String) {
@@ -112,7 +116,7 @@ class MainWindowController(private val h1TextField: TextField,
     output
   }
 
-  def stringToPositiveInt(input: String):Int= {
+  def stringToPositiveInt(input: String): Int = {
     var output: Int = 0
     try {
       output = input.toInt
