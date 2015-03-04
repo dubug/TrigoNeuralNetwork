@@ -195,7 +195,7 @@ class Perceptron {
 
   /**
    * Not used.
-   * @param iS
+   * @param iS the input as a Vector of Double
    * @return
    */
   def recognize(iS: Vector[Double]): Vector[Double] = {
