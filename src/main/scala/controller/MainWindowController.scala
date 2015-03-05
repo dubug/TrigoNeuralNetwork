@@ -45,7 +45,7 @@ class MainWindowController(private val h1TextField: TextField,
   functionComboBox.getSelectionModel.selectFirst()
 
   // Create the line chart
-  val managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
+  var managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
 
   // Data binding between the functionComboBox and H2 and H1 text fields
   //  h1TextField.text <== new StringBinding {
@@ -76,9 +76,10 @@ class MainWindowController(private val h1TextField: TextField,
    */
 
   // The following conflicts with the data binding above
-  /* def onFunctionComboBox(event: ActionEvent) {
+  def onFunctionComboBox(event: ActionEvent) {
      debug("Function Combo Box")
-   }*/
+     managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
+   }
 
   /**
    * Text fields event handlers
