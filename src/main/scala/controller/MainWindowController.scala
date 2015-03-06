@@ -2,6 +2,7 @@ package controller
 
 import grizzled.slf4j.Logging
 import model.function._
+import util.Converters
 
 import scala.reflect.runtime.universe.typeOf
 import scalafx.Includes._
@@ -77,9 +78,9 @@ class MainWindowController(private val h1TextField: TextField,
 
   // The following conflicts with the data binding above
   def onFunctionComboBox(event: ActionEvent) {
-     debug("Function Combo Box")
-     managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
-   }
+    debug("Function Combo Box")
+    managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
+  }
 
   /**
    * Text fields event handlers
@@ -87,45 +88,23 @@ class MainWindowController(private val h1TextField: TextField,
   def onH1TextField(event: ActionEvent) {
     debug("H1 text field event handler")
     // Why do I have to use asInstanceOf when the method returns always Int?
-    hiddenLayers = hiddenLayers.updated(0, stringToPositiveInt(h1TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(0, Converters.stringToPositiveInt(h1TextField.text.value))
     h1TextField.setText(hiddenLayers(0).toString)
     logger.debug("layers" + hiddenLayers)
   }
 
   def onH2TextField(event: ActionEvent) {
     debug("H2 text field event handler")
-    hiddenLayers = hiddenLayers.updated(1, stringToPositiveInt(h2TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(1, Converters.stringToPositiveInt(h2TextField.text.value))
     h1TextField.setText(hiddenLayers(1).toString)
     debug("layers" + hiddenLayers)
   }
 
   def onH3TextField(event: ActionEvent) {
     debug("H3 text field event handler")
-    hiddenLayers = hiddenLayers.updated(2, stringToPositiveInt(h3TextField.text.value))
+    hiddenLayers = hiddenLayers.updated(2, Converters.stringToPositiveInt(h3TextField.text.value))
     h1TextField.setText(hiddenLayers(2).toString)
     debug("layers" + hiddenLayers)
-  }
-
-  def stringToPositiveDouble(input: String) {
-    var output: Double = 0.0
-    try {
-      output = input.toDouble
-    } catch {
-      case _: Exception => output = 0.0
-    }
-    if (output < 0.0) output = 0.0
-    output
-  }
-
-  def stringToPositiveInt(input: String): Int = {
-    var output: Int = 0
-    try {
-      output = input.toInt
-    } catch {
-      case _: Exception => output = 0
-    }
-    if (output < 0) output = 0
-    output
   }
 }
 
