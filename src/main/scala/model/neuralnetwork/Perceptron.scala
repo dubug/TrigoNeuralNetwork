@@ -5,166 +5,88 @@ package model.neuralnetwork
  *
  * Created by Yves on 25.02.2015.
  */
-class Perceptron {
+class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutputNeurons: Int) {
   var layers: Vector[Layer] = Vector.empty
-  var inputSamples: Vector[Vector[Double]] = null
-  var outputSamples: Vector[Vector[Double]] = null
-  var inputCV: Vector[Vector[Double]] = null
-  var outputCV: Vector[Vector[Double]] = null
-  var inputLayer: Layer = null
-  var outputLayer: Layer = null
+  var inputSamples: Vector[Vector[Double]] = Vector.empty
+  var outputSamples: Vector[Vector[Double]] = Vector.empty
+  var inputCV: Vector[Vector[Double]] = Vector.empty
+  var outputCV: Vector[Vector[Double]] = Vector.empty
+  var inputLayer: Layer = new Layer("I", numberInputNeurons + 1)
+  var outputLayer: Layer = new Layer("O", numberOutputNeurons)
+  layers = layers :+ inputLayer
+  layers = layers :+ outputLayer
   var error: Double = 0.0
 
-  def this(i: Int, o: Int) {
-    this()
-    inputSamples = Vector.empty
-    outputSamples = Vector.empty
-    inputCV = Vector.empty
-    outputCV = Vector.empty
-    inputLayer = new Layer("I", i + 1)
-    outputLayer = new Layer("O", o)
-    layers = layers :+ inputLayer
-    layers = layers :+ outputLayer
-    error = 0.0
+  def initPerceptron(): Unit = {
+    var numberOfHiddenLayers: Int = 0
+
+    // Create the hidden layers of neurons
+    for (i <- 0 until hiddenLayers.length) {
+      if (hiddenLayers(i) != 0) {
+        this.addLayer("H" + String.valueOf(i) + "|", hiddenLayers(i))
+        numberOfHiddenLayers += 1
+      }
+    }
+    /*
+     The bias is an extra input neuron used as a constant
+     by all neurons from all layers except the input layer.
+     It allows "shifting" the activation function to the
+     left or to the right for these neurons.
+     See https://stackoverflow.com/questions/2480650/role-of-bias-in-neural-networks .
+      */
+    for (j <- 0 to numberOfHiddenLayers) {
+      for (i <- 0 to hiddenLayers(j)) {
+        this.biasConnect(j + 1, i)
+      }
+      // For the output layer
+      this.biasConnect(numberOfHiddenLayers + 1, 0)
+    }
+
+    if (numberOfHiddenLayers == 0) {
+      // Connect the input layer to the output layer directly
+      for (i <- 0 to numberInputNeurons)
+        for (j <- 0 to numberOutputNeurons)
+          this.connect(0, i, 1, j)
+    } else {
+      // connect the inputs to the first hidden layer
+      for (i <- 0 to hiddenLayers(0))
+        for (j <- 0 to numberInputNeurons)
+          this.connect(0, j, 1, i)
+      // connect the hidden layers together
+      for (k <- 0 until numberOfHiddenLayers)
+        for (i <- 0 to hiddenLayers(k))
+          for (j <- 0 to hiddenLayers(k + 1))
+            this.connect(k + 1, i, k + 2, j);
+      // connect the last hidden layer to the output
+      for (i <- 0 until hiddenLayers(numberOfHiddenLayers))
+        for (j <- 0 to numberOutputNeurons)
+          this.connect(numberOfHiddenLayers, i, numberOfHiddenLayers + 1, j)
+    }
   }
 
-/*
-  def initPerceptron {
-    var hid= new Array[Int](3)
-    var nLayer: Int = 0
-    var i: Int = 0
-    var j: Int = 0
-    var k: Int = 0
-    var text: String = null
-    nLayer = 0
-    {
-      i = 0
-      while (i < 3) {
-        {
-          text = hiddenTF(i).getText
-          if ("" == text) hid(i) = 0
-          else hid(i) = (Integer.valueOf(text)).intValue
-          if (hid(i) != 0) {
-            val s: String = "H" + String.valueOf(i) + "|"
-            addLayer(hid(i), s)
-            nLayer += 1
-          }
-        }
-        ({
-          i += 1; i - 1
-        })
-      }
-    }
-    {
-      j = 0
-      while (j < nLayer) {
-        {
-          i = 0
-          while (i < hid(j)) {
-            biasConnect(j + 1, i)
-            ({
-              i += 1; i - 1
-            })
-          }
-        }
-        ({
-          j += 1; j - 1
-        })
-      }
-    }
-    biasConnect(nLayer + 1, 0)
-    if (nLayer == 0) {
-      i = 0
-      while (i < n_in) {
-        {
-          j = 0
-          while (j < n_out) {
-            connect(0, i, 1, j)
-            ({
-              j += 1; j - 1
-            })
-          }
-        }
-        ({
-          i += 1; i - 1
-        })
-      }
-    }
-    else {
-      {
-        i = 0
-        while (i < hid(0)) {
-          {
-            j = 0
-            while (j < n_in) {
-              connect(0, j, 1, i)
-              ({
-                j += 1; j - 1
-              })
-            }
-          }
-          ({
-            i += 1; i - 1
-          })
-        }
-      }
-      {
-        k = 0
-        while (k < nLayer - 1) {
-          {
-            i = 0
-            while (i < hid(k)) {
-              {
-                j = 0
-                while (j < hid(k + 1)) {
-                  connect(k + 1, i, k + 2, j)
-                  ({
-                    j += 1; j - 1
-                  })
-                }
-              }
-              ({
-                i += 1; i - 1
-              })
-            }
-          }
-          ({
-            k += 1; k - 1
-          })
-        }
-      }
-      {
-        i = 0
-        while (i < hid(nLayer - 1)) {
-          {
-            j = 0
-            while (j < n_out) {
-              connect(nLayer, i, nLayer + 1, j)
-              ({
-                j += 1; j - 1
-              })
-            }
-          }
-          ({
-            i += 1; i - 1
-          })
-        }
-      }
-    }
-    functionCanvas.setPerceptron(perceptron)
-  }
-*/
-
-  def addLayer(n: Int, name: String) {
-    layers = layers :+ new Layer(name, n)
+  def addLayer(name: String, numberOfNeurons: Int) {
+    layers = layers :+ new Layer(name, numberOfNeurons)
   }
 
   def getLayer(i: Int) = layers(i)
 
+  /**
+   * Connects any given two neurons with a Synapse.
+   * @param sourceLayer id of the source layer
+   * @param sourceNeuron id of the neuron within sourceLayer
+   * @param destLayer id of the destination layer
+   * @param destNeuron id of the neuron within destLayer
+   */
   def connect(sourceLayer: Int, sourceNeuron: Int, destLayer: Int, destNeuron: Int) {
     new Synapse(getLayer(sourceLayer).getNeuron(sourceNeuron), getLayer(destLayer).getNeuron(destNeuron))
   }
 
+  /**
+   * Connects the last neuron of the input layer to the specified
+   * neuron of the specified layer, with a Synapse object.
+   * @param destLayer id of the layer
+   * @param destNeuron id of the neuron within destLayer
+   */
   def biasConnect(destLayer: Int, destNeuron: Int) {
     new Synapse(inputLayer.getNeuron(inputLayer.size - 1), getLayer(destLayer).getNeuron(destNeuron))
   }
@@ -238,6 +160,9 @@ class Perceptron {
     inputLayer.getNeuron(inputLayer.size).output = 1.0
   }
 
+  /**
+   * Propagates the input signal through all layers consecutively.
+   */
   def propagate() {
     // Skip the input layer
     for (iter <- 1 to layers.length)
@@ -260,6 +185,10 @@ class Perceptron {
 
   def currentError: Double = error
 
+  /**
+   * Adjusts weights according to the backpropagation algorithm.
+   * @param oS the desired output of the perceptron
+   */
   def bpAdjustWeights(oS: Vector[Double]) {
     outputLayer.computeBackpropDeltas(oS)
     for (iter <- layers.size - 2 to 1) {

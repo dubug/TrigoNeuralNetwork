@@ -2,6 +2,7 @@ package controller
 
 import grizzled.slf4j.Logging
 import model.function._
+import model.neuralnetwork.NeuralNetworkTrainer
 import util.Converters
 
 import scala.reflect.runtime.universe.typeOf
@@ -34,10 +35,12 @@ class MainWindowController(private val h1TextField: TextField,
                            private val displayTotalIterationsLabel: Label,
                            private val functionComboBox: ComboBox[MathematicalFunction],
                            private val mathematicalFunctions: MathematicalFunctions) extends Logging {
+  /**
+   * A vector of integers to store the number of neurons per hidden layer.
+   * This information is taken from the fields: h1TestField, h2TestField and h3TestField.
+   */
   var hiddenLayers = Vector(1, 0, 0)
-
-  //  @javafx.fxml.FXML
-  //  var functionLineChart: LineChart[Number, Number]=null
+  var neuralNetworkTrainer: NeuralNetworkTrainer = null
 
   // Filling the combo box
   for (converter <- mathematicalFunctions.available) {
@@ -46,7 +49,10 @@ class MainWindowController(private val h1TextField: TextField,
   functionComboBox.getSelectionModel.selectFirst()
 
   // Create the line chart
-  var managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
+  var managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,
+    functionComboBox.getSelectionModel.getSelectedItem,
+    null,
+    null)
 
   // Data binding between the functionComboBox and H2 and H1 text fields
   //  h1TextField.text <== new StringBinding {
@@ -55,7 +61,7 @@ class MainWindowController(private val h1TextField: TextField,
   //    def computeValue() = {
   //      debug("Function Combo Box and H2 field => computeValue()")
   //      if (h1TextField.text.value != "")
-  //        functionComboBox.getSelectionModel.getSelectedItem run h1TextField.text.value
+  //        functionComboBox.getSelectionModel.getSelectedItem apply h1TextField.text.value
   //      else "0.0"
   //    }
   //  }
@@ -66,6 +72,20 @@ class MainWindowController(private val h1TextField: TextField,
 
   def onInit(event: ActionEvent) {
     debug("Init button")
+    var hiddenLayers = new Array[Int](3)
+    hiddenLayers(0) = Converters.stringToPositiveInt(h1TextField.delegate.text())
+    hiddenLayers(1) = Converters.stringToPositiveInt(h1TextField.delegate.text())
+    hiddenLayers(2) = Converters.stringToPositiveInt(h1TextField.delegate.text())
+
+    neuralNetworkTrainer = new NeuralNetworkTrainer(Converters.stringToPositiveInt(inputsTextField.delegate.text()),
+      hiddenLayers,
+      Converters.stringToPositiveInt(outputsTextField.delegate.text()),
+      functionComboBox.getSelectionModel.getSelectedItem,
+      Converters.stringToPositiveDouble(deltaTextField.delegate.text()),
+      Converters.stringToPositiveDouble(delayTextField.delegate.text()))
+
+    displayTotalIterationsLabel.setText("0")
+    //if (errorGraph != null) errorGraph.graph.clear
   }
 
   def onLearn(event: ActionEvent) {
@@ -79,7 +99,10 @@ class MainWindowController(private val h1TextField: TextField,
   // The following conflicts with the data binding above
   def onFunctionComboBox(event: ActionEvent) {
     debug("Function Combo Box")
-    managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart, functionComboBox.getSelectionModel.getSelectedItem)
+    managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,
+      functionComboBox.getSelectionModel.getSelectedItem,
+      if (neuralNetworkTrainer == null) null else neuralNetworkTrainer.inputValues,
+      if (neuralNetworkTrainer == null) null else neuralNetworkTrainer.outputValues)
   }
 
   /**

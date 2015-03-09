@@ -1,6 +1,5 @@
 package model.function
 
-import model.neuralnetwork.Perceptron
 
 /**
  * Created by Yves on 25.02.2015.
@@ -16,14 +15,13 @@ class MathematicalFunctions(mathematicalFunctions: MathematicalFunction*) {
   var delay: Double = .0
   var delta: Double = .0
   var startx: Double = 0.0
-  var perceptron: Perceptron = null
   var function = Cosine
 }
 
 trait MathematicalFunction {
   val description: String
 
-  def run(x: Double): Double
+  def apply(x: Double): Double
 
   override def toString = description
 }
@@ -31,26 +29,26 @@ trait MathematicalFunction {
 object Sine extends MathematicalFunction {
   val description: String = "Sine"
 
-  def run(x: Double): Double = (0.5 + Math.sin(x * 4 * Math.PI) / 2)
+  def apply(x: Double): Double = (0.5 + Math.sin(x * 4 * Math.PI) / 2)
 }
 
 object Cosine extends MathematicalFunction {
   val description: String = "Cosine"
 
-  def run(x: Double): Double = (0.5 + Math.cos(x * Math.PI) / 2)
+  def apply(x: Double): Double = (0.5 + Math.cos(x * Math.PI) / 2)
 }
 
 object Complex extends MathematicalFunction {
   val description: String = "Complex"
 
-  def run(x: Double): Double = 0.5 + (Math.sin(x * 3 * Math.PI) + Math.sin(x * 7 * Math.PI) + Math.sin(x * 8 * Math.PI) + Math.sin(x * 11 * Math.PI)) / 8
+  def apply(x: Double): Double = 0.5 + (Math.sin(x * 3 * Math.PI) + Math.sin(x * 7 * Math.PI) + Math.sin(x * 8 * Math.PI) + Math.sin(x * 11 * Math.PI)) / 8
 }
 
 object Chaos extends MathematicalFunction {
   val description: String = "Chaos"
   var Ikeda: Array[Double] = initIkeda()
 
-  def run(x: Double): Double = {
+  def apply(x: Double): Double = {
     var value: Double = 0
     var i: Int = 0
     var dx: Double = .0

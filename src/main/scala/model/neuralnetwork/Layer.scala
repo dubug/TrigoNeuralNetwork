@@ -9,12 +9,12 @@ class Layer {
   var neurons: Vector[Neuron] = Vector.empty[Neuron]
   var size: Int = 0
 
-  def this(l: String, s: Int) {
+  def this(label: String, numberOfNeurons: Int) {
     this()
     var label: String = null
-    size = s
-    for (i <- 0 to s) {
-      label = l + String.valueOf(i)
+    size = numberOfNeurons
+    for (i <- 0 to numberOfNeurons) {
+      label = label + String.valueOf(i)
       neurons :+ new Neuron(label)
     }
   }
