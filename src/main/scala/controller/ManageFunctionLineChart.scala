@@ -14,6 +14,7 @@ class ManageFunctionLineChart(val lineChart: LineChart[Number, Number],
                               val function: MathematicalFunction,
                               var inputValues: IndexedSeq[(Double,Double)],
                               var outputValues: IndexedSeq[(Double,Double)]) {
+  // Actual computation of the function for the chart
   var buf = for (x <- 0.0 to 2.0 by 0.01) yield (x, function(x))
   val data = ObservableBuffer(buf map { case (x, y) => XYChart.Data[Number, Number](x, y)})
   val functionSerie = XYChart.Series[Number, Number](function.toString, data)

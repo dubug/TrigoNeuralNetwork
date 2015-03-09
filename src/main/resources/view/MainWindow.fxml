@@ -105,7 +105,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <LineChart fx:id="functionLineChart" legendVisible="false" VBox.vgrow="ALWAYS">
+                  <LineChart fx:id="functionLineChart" VBox.vgrow="ALWAYS">
                     <xAxis>
                       <NumberAxis side="BOTTOM" />
                     </xAxis>

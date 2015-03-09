@@ -113,29 +113,18 @@ class MainWindowController(private val h1TextField: TextField,
     // Update total iterations
     displayTotalIterationsLabel.setText(String.valueOf(Converters.stringToPositiveInt(displayTotalIterationsLabel.delegate.text()) + max))
     disableDuringLearning(false)
-  }
 
-  /**
-   * Disables the text fields and controls during training.
-   */
-  def disableDuringLearning(toggle: Boolean) {
-    h1TextField.setDisable(toggle)
-    h2TextField.setDisable(toggle)
-    h3TextField.setDisable(toggle)
-    inputsTextField.setDisable(toggle)
-    outputsTextField.setDisable(toggle)
-    deltaTextField.setDisable(toggle)
-    delayTextField.setDisable(toggle)
-    momentumTextField.setDisable(toggle)
-    learningRateTextField.setDisable(toggle)
-    iterationsTextField.setDisable(toggle)
+    managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,
+      functionComboBox.getSelectionModel.getSelectedItem,
+      if (neuralNetworkTrainer == null) null else neuralNetworkTrainer.inputValues,
+      if (neuralNetworkTrainer == null) null else neuralNetworkTrainer.outputValues)
   }
 
   /**
    * Combo box event handler
    */
 
-  // The following conflicts with the data binding above
+  // The following conflicts with the commented data binding above
   def onFunctionComboBox(event: ActionEvent) {
     debug("Function Combo Box")
     managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,
@@ -167,6 +156,22 @@ class MainWindowController(private val h1TextField: TextField,
     hiddenLayers = hiddenLayers.updated(2, Converters.stringToPositiveInt(h3TextField.text.value))
     h1TextField.setText(hiddenLayers(2).toString)
     debug("layers" + hiddenLayers)
+  }
+
+  /**
+   * Disables the text fields and controls during training.
+   */
+  def disableDuringLearning(toggle: Boolean) {
+    h1TextField.setDisable(toggle)
+    h2TextField.setDisable(toggle)
+    h3TextField.setDisable(toggle)
+    inputsTextField.setDisable(toggle)
+    outputsTextField.setDisable(toggle)
+    deltaTextField.setDisable(toggle)
+    delayTextField.setDisable(toggle)
+    momentumTextField.setDisable(toggle)
+    learningRateTextField.setDisable(toggle)
+    iterationsTextField.setDisable(toggle)
   }
 }
 

@@ -79,13 +79,17 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
   }
 
   def setSamples(): Unit = {
+    val length: Double = (numberOfInputNeurons + numberOfOutputNeurons - 2) * delta + delay
+
     var in: Vector[Double] = Vector.empty[Double]
     var out: Vector[Double] = Vector.empty[Double]
     var start: Double = 0.0
     var x: Double = 0.0
+
     perceptron.removeSamples()
-    var length: Double = (numberOfInputNeurons + numberOfOutputNeurons - 2) * delta + delay
     for (j <- 0 until 100) {
+      in = Vector.empty[Double]
+      out = Vector.empty[Double]
       start = j * (1.0 - length) / 100
       for (i <- 0 until numberOfInputNeurons) {
         x = start + delta * i
@@ -97,16 +101,15 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
       }
       perceptron.addSample(in, out)
     }
-    perceptron.printSamples
   }
 
-  def learn():Unit={
+  def learn(): Unit = {
     perceptron.learn(1)
-    info("Perceptron error level: "+perceptron.currentError)
+    info("Perceptron error level: " + perceptron.currentError)
   }
 
-  def test():Unit={
+  def test(): Unit = {
     perceptron.test
-    info("Perceptron error level: "+perceptron.currentError)
+    info("Perceptron error level: " + perceptron.currentError)
   }
 }
