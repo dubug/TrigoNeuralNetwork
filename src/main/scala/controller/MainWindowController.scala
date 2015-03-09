@@ -1,5 +1,7 @@
 package controller
 
+import java.util.ResourceBundle
+
 import grizzled.slf4j.Logging
 import model.function._
 import model.neuralnetwork.{NeuralNetworkTrainer, Neuron}
@@ -169,16 +171,16 @@ class MainWindowController(private val h1TextField: TextField,
 }
 
 object ScalaFXML extends JFXApp {
+  var resources: ResourceBundle = ResourceBundle.getBundle("view.NeuralNetwork")
   // HARDCODED
-  val fxmlFilePath = "/view/MainWindow.fxml"
+  val fxmlFilePath = resources.getString("fxml.file.path")
 
   val root = FXMLView(getClass.getResource(fxmlFilePath),
     new DependenciesByType(Map(
       typeOf[MathematicalFunctions] -> new MathematicalFunctions(Cosine, Sine, Complex, Chaos))))
 
   stage = new JFXApp.PrimaryStage() {
-    title = "Neural network HARDCODED"
+    title = resources.getString("neuralnetwork.window.title")
     scene = new Scene(root)
   }
 }
-
