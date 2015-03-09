@@ -171,9 +171,9 @@ class MainWindowController(private val h1TextField: TextField,
 }
 
 object ScalaFXML extends JFXApp {
-  var resources: ResourceBundle = ResourceBundle.getBundle("view.NeuralNetwork")
+  val resources: ResourceBundle = ResourceBundle.getBundle("view.NeuralNetwork")
   // HARDCODED
-  val fxmlFilePath = resources.getString("fxml.file.path")
+  val fxmlFilePath = resources.getString("neuralnetwork.fxml.file.path")
 
   val root = FXMLView(getClass.getResource(fxmlFilePath),
     new DependenciesByType(Map(
@@ -181,6 +181,8 @@ object ScalaFXML extends JFXApp {
 
   stage = new JFXApp.PrimaryStage() {
     title = resources.getString("neuralnetwork.window.title")
-    scene = new Scene(root)
+    scene = new Scene(root){
+      stylesheets.add("view/css/lineChart.css")
+    }
   }
 }
