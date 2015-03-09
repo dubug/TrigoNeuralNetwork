@@ -28,18 +28,26 @@ class Neuron {
 
   def computeOutput {
     sum = 0.0
-    inlinks.foreach((synapse:Synapse) => sum += synapse.from.getOutput * synapse.getWeight)
+    inlinks.foreach((synapse: Synapse) => sum += synapse.from.getOutput * synapse.getWeight)
+    // Sigmoid function
     output = 1.0 / (1.0 + Math.exp(-sum))
   }
 
+  /**
+   * Computes the backpropagation delta for an output neuron.
+   * @param d
+   */
   def computeBackpropDelta(d: Double) {
     delta = (d - output) * output * (1.0 - output)
   }
 
+  /**
+   * Computes the backpropagation delta for a neuron in a hidden layer.
+   */
   def computeBackpropDelta {
     var errorSum: Double = 0.0
 
-    outlinks.foreach((synapse:Synapse) => errorSum += synapse.to.delta * synapse.getWeight)
+    outlinks.foreach((synapse: Synapse) => errorSum += synapse.to.delta * synapse.getWeight)
     delta = output * (1.0 - output) * errorSum
   }
 
@@ -50,11 +58,11 @@ class Neuron {
     }
   }
 
-  def print {
-    System.out.print(label + "=" + output + ": ")
-    outlinks.foreach((synapse:Synapse) =>
-      System.out.print(synapse.to.label + "(" + synapse.weight + ") ")
+  override def toString: String = {
+    var me: String = label + "=" + output + ": "
+    outlinks.foreach((synapse: Synapse) =>
+      me += synapse.to.label + "(" + synapse.weight + ") "
     )
-    System.out.println("")
+    me
   }
 }

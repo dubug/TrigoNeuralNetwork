@@ -22,11 +22,11 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
   /**
    * The inputs of the perceptron
    */
-  var inputValues: IndexedSeq[(Double,Double)] = IndexedSeq.empty
+  var inputValues: IndexedSeq[(Double, Double)] = IndexedSeq.empty
   /**
    * The outputs of the perceptron
    */
-  var outputValues: IndexedSeq[(Double,Double)] = IndexedSeq.empty
+  var outputValues: IndexedSeq[(Double, Double)] = IndexedSeq.empty
   /**
    * The abscissa of the first point used as an input value.
    * Should be selected by the user by clicking on the graph.
@@ -51,8 +51,8 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
 
     for (i <- 0 until numberOfInputNeurons) {
       x = startX + delta * i
-      inputValues :+(x, function(x))
-      inputTemp :+ function(x)
+      inputValues = inputValues :+(x, function(x))
+      inputTemp = inputTemp :+ function(x)
     }
 
     assert(perceptron != null, "Perceptron not instantiated.")
@@ -62,9 +62,9 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
     for (i <- 0 until numberOfOutputNeurons) {
       x = startX + delay + delta * (i + numberOfInputNeurons - 1)
       if (outputTemp.length > i)
-        outputValues :+(x, outputTemp(i))
+        outputValues = outputValues :+(x, outputTemp(i))
       else {
-        outputValues :+(x, function(x))
+        outputValues = outputValues :+(x, function(x))
         info("No element number " + i + " in the output.")
       }
     }
@@ -76,5 +76,37 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
   def clearPoints(): Unit = {
     inputValues = Vector.empty
     outputValues = Vector.empty
+  }
+
+  def setSamples(): Unit = {
+    var in: Vector[Double] = Vector.empty[Double]
+    var out: Vector[Double] = Vector.empty[Double]
+    var start: Double = 0.0
+    var x: Double = 0.0
+    perceptron.removeSamples()
+    var length: Double = (numberOfInputNeurons + numberOfOutputNeurons - 2) * delta + delay
+    for (j <- 0 until 100) {
+      start = j * (1.0 - length) / 100
+      for (i <- 0 until numberOfInputNeurons) {
+        x = start + delta * i
+        in = in :+ function(x)
+      }
+      for (i <- 0 until numberOfOutputNeurons) {
+        x = start + delay + delta * (i + numberOfInputNeurons - 1)
+        out = out :+ function(x)
+      }
+      perceptron.addSample(in, out)
+    }
+    perceptron.printSamples
+  }
+
+  def learn():Unit={
+    perceptron.learn(1)
+    info("Perceptron error level: "+perceptron.currentError)
+  }
+
+  def test():Unit={
+    perceptron.test
+    info("Perceptron error level: "+perceptron.currentError)
   }
 }

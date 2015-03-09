@@ -23,7 +23,7 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
     // Create the hidden layers of neurons
     for (i <- 0 until hiddenLayers.length) {
       if (hiddenLayers(i) != 0) {
-        this.addLayer("H" + String.valueOf(i) + "|", hiddenLayers(i))
+        this.addLayer("H" + i + "|", hiddenLayers(i))
         numberOfHiddenLayers += 1
       }
     }
@@ -154,7 +154,7 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
 
   def initInputs(iS: Vector[Double]) {
     var neuron: Neuron = null
-    for (iter <- 0 to iS.length)
+    for (iter <- 0 until iS.length)
       inputLayer.getNeuron(iter).output = iS(iter)
     // Bias
     inputLayer.getNeuron(inputLayer.size).output = 1.0
@@ -165,7 +165,7 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
    */
   def propagate() {
     // Skip the input layer
-    for (iter <- 1 to layers.length)
+    for (iter <- 1 until layers.length)
       layers(iter).computeOutputs()
   }
 
@@ -200,7 +200,9 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
     }
   }
 
-  def print() {
-    layers foreach (_.print())
+  override def toString: String = {
+    var me: String = ""
+    layers foreach (me += _.toString + "\n")
+    me
   }
 }

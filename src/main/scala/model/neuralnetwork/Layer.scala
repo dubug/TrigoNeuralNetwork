@@ -1,22 +1,25 @@
 package model.neuralnetwork
 
+import grizzled.slf4j.Logging
+
 /**
  * A layer of neurons in a neural network.
  *
  * Created by Yves on 25.02.2015.
  */
-class Layer {
+class Layer extends Logging {
+  var label: String = "No label"
   var neurons: Vector[Neuron] = Vector.empty[Neuron]
   var size: Int = 0
 
   def this(label: String, numberOfNeurons: Int) {
     this()
-    var label: String = null
+    var newNeuron: Neuron = null
     size = numberOfNeurons
-    for (i <- 0 to numberOfNeurons) {
-      label = label + String.valueOf(i)
-      neurons :+ new Neuron(label)
-    }
+    this.label = label
+    for (i <- 0 to size)
+      neurons=neurons :+ new Neuron(label + i)
+    debug("Created Layer with label " + label + " containing " + neurons.length + " Neuron object(s).")
   }
 
   def getNeuron(i: Int): Neuron = {
@@ -47,8 +50,10 @@ class Layer {
     for (neuron <- neurons) neuron.computeWeight
   }
 
-  def print() {
-    for (neuron <- neurons) neuron.print
+  override def toString: String = {
+    var me: String = ""
+    for (neuron <- neurons) me += neuron.toString + "\n"
+    me
   }
 }
 

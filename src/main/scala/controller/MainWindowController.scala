@@ -2,7 +2,7 @@ package controller
 
 import grizzled.slf4j.Logging
 import model.function._
-import model.neuralnetwork.NeuralNetworkTrainer
+import model.neuralnetwork.{NeuralNetworkTrainer, Neuron}
 import util.Converters
 
 import scala.reflect.runtime.universe.typeOf
@@ -27,11 +27,12 @@ class MainWindowController(private val h1TextField: TextField,
                            private val inputsTextField: TextField,
                            private val outputsTextField: TextField,
                            private val deltaTextField: TextField,
+                           private val delayTextField: TextField,
                            private val functionLineChart: LineChart[Number, Number],
                            private val momentumTextField: TextField,
                            private val learningRateTextField: TextField,
                            private val iterationsTextField: TextField,
-                           private val delayTextField: TextField,
+                           private val counter: Label,
                            private val displayTotalIterationsLabel: Label,
                            private val functionComboBox: ComboBox[MathematicalFunction],
                            private val mathematicalFunctions: MathematicalFunctions) extends Logging {
@@ -43,8 +44,8 @@ class MainWindowController(private val h1TextField: TextField,
   var neuralNetworkTrainer: NeuralNetworkTrainer = null
 
   // Filling the combo box
-  for (converter <- mathematicalFunctions.available) {
-    functionComboBox += converter
+  for (mathematicalFunction <- mathematicalFunctions.available) {
+    functionComboBox += mathematicalFunction
   }
   functionComboBox.getSelectionModel.selectFirst()
 
@@ -74,8 +75,11 @@ class MainWindowController(private val h1TextField: TextField,
     debug("Init button")
     var hiddenLayers = new Array[Int](3)
     hiddenLayers(0) = Converters.stringToPositiveInt(h1TextField.delegate.text())
-    hiddenLayers(1) = Converters.stringToPositiveInt(h1TextField.delegate.text())
-    hiddenLayers(2) = Converters.stringToPositiveInt(h1TextField.delegate.text())
+    hiddenLayers(1) = Converters.stringToPositiveInt(h2TextField.delegate.text())
+    hiddenLayers(2) = Converters.stringToPositiveInt(h3TextField.delegate.text())
+    info("Size of the hidden layer number 0: " + hiddenLayers(0))
+    info("Size of the hidden layer number 0: " + hiddenLayers(1))
+    info("Size of the hidden layer number 0: " + hiddenLayers(2))
 
     neuralNetworkTrainer = new NeuralNetworkTrainer(Converters.stringToPositiveInt(inputsTextField.delegate.text()),
       hiddenLayers,
@@ -90,6 +94,39 @@ class MainWindowController(private val h1TextField: TextField,
 
   def onLearn(event: ActionEvent) {
     debug("Learn button")
+    neuralNetworkTrainer.setSamples()
+    Neuron.learningRate = Converters.stringToPositiveDouble(learningRateTextField.delegate.text())
+    var max: Int = Converters.stringToPositiveInt(iterationsTextField.delegate.text())
+    counter.setDisable(false)
+    disableDuringLearning(true)
+    for (i <- 0 until max) {
+      neuralNetworkTrainer.learn()
+      if (i % 10 == 0) {
+        counter.setText(String.valueOf(max - i))
+        // Handle error graph here
+      }
+      neuralNetworkTrainer.test()
+      // Handle error graph here
+    }
+    // Update total iterations
+    displayTotalIterationsLabel.setText(String.valueOf(Converters.stringToPositiveInt(displayTotalIterationsLabel.delegate.text()) + max))
+    disableDuringLearning(false)
+  }
+
+  /**
+   * Disables the text fields and controls during training.
+   */
+  def disableDuringLearning(toggle: Boolean) {
+    h1TextField.setDisable(toggle)
+    h2TextField.setDisable(toggle)
+    h3TextField.setDisable(toggle)
+    inputsTextField.setDisable(toggle)
+    outputsTextField.setDisable(toggle)
+    deltaTextField.setDisable(toggle)
+    delayTextField.setDisable(toggle)
+    momentumTextField.setDisable(toggle)
+    learningRateTextField.setDisable(toggle)
+    iterationsTextField.setDisable(toggle)
   }
 
   /**
