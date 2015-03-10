@@ -24,13 +24,13 @@ class ManageFunctionLineChart(val lineChart: LineChart[Number, Number],
   if (inputValues != null) {
     // Add the input values given to the perceptron as a serie
     val dataInput = ObservableBuffer(inputValues map { case (x, y) => XYChart.Data[Number, Number](x, y)})
-    val inputSerie = XYChart.Series[Number, Number]("Input", data)
+    val inputSerie = XYChart.Series[Number, Number]("Input", dataInput)
     lineChart.getData().add(inputSerie)
   }
   if (outputValues != null) {
-    // Add the output values reeived from the perceptron as a serie
+    // Add the output values received from the perceptron as a serie
     val dataOutput = ObservableBuffer(outputValues map { case (x, y) => XYChart.Data[Number, Number](x, y)})
-    val outputSerie = XYChart.Series[Number, Number]("Output", data)
+    val outputSerie = XYChart.Series[Number, Number]("Output", dataOutput)
     lineChart.getData().add(outputSerie)
   }
 }

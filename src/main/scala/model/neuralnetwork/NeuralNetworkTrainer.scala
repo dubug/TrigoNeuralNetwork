@@ -101,15 +101,16 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
       }
       perceptron.addSample(in, out)
     }
+    perceptron.printSamples()
   }
 
   def learn(): Unit = {
     perceptron.learn(1)
-    info("Perceptron error level: " + perceptron.currentError)
+    info("learn - Perceptron error level: " + perceptron.currentError)
   }
 
   def test(): Unit = {
     perceptron.test
-    info("Perceptron error level: " + perceptron.currentError)
+    info("test  - Perceptron error level: " + perceptron.currentError)
   }
 }
