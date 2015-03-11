@@ -1,11 +1,13 @@
 package model.neuralnetwork
 
+import grizzled.slf4j.Logging
+
 /**
  * Multi layer perceptron implementation.
  *
  * Created by Yves on 25.02.2015.
  */
-class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutputNeurons: Int) {
+class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutputNeurons: Int) extends Logging {
   var layers: Vector[Layer] = Vector.empty
   var inputSamples: Vector[Vector[Double]] = Vector.empty
   var outputSamples: Vector[Vector[Double]] = Vector.empty
@@ -34,8 +36,8 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
      left or to the right for these neurons.
      See https://stackoverflow.com/questions/2480650/role-of-bias-in-neural-networks .
       */
-    for (j <- 0 to numberOfHiddenLayers) {
-      for (i <- 0 to hiddenLayers(j)) {
+    for (j <- 0 until numberOfHiddenLayers) {
+      for (i <- 0 until hiddenLayers(j)) {
         this.biasConnect(j + 1, i)
       }
       // For the output layer
@@ -44,28 +46,29 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
 
     if (numberOfHiddenLayers == 0) {
       // Connect the input layer to the output layer directly
-      for (i <- 0 to numberInputNeurons)
-        for (j <- 0 to numberOutputNeurons)
+      for (i <- 0 until numberInputNeurons)
+        for (j <- 0 until numberOutputNeurons)
           this.connect(0, i, 1, j)
     } else {
       // connect the inputs to the first hidden layer
-      for (i <- 0 to hiddenLayers(0))
-        for (j <- 0 to numberInputNeurons)
+      for (i <- 0 until hiddenLayers(0))
+        for (j <- 0 until numberInputNeurons)
           this.connect(0, j, 1, i)
       // connect the hidden layers together
-      for (k <- 0 until numberOfHiddenLayers)
-        for (i <- 0 to hiddenLayers(k))
-          for (j <- 0 to hiddenLayers(k + 1))
-            this.connect(k + 1, i, k + 2, j);
+      for (k <- 0 until (numberOfHiddenLayers - 1))
+        for (i <- 0 until hiddenLayers(k))
+          for (j <- 0 until hiddenLayers(k + 1))
+            this.connect(k + 1, i, k + 2, j)
       // connect the last hidden layer to the output
-      for (i <- 0 until hiddenLayers(numberOfHiddenLayers))
-        for (j <- 0 to numberOutputNeurons)
+      for (i <- 0 until hiddenLayers(numberOfHiddenLayers - 1))
+        for (j <- 0 until numberOutputNeurons)
           this.connect(numberOfHiddenLayers, i, numberOfHiddenLayers + 1, j)
     }
   }
 
   def addLayer(name: String, numberOfNeurons: Int) {
-    layers = layers :+ new Layer(name, numberOfNeurons)
+    // Insert the new layer before the last (output) layer
+    layers = layers.take(layers.size - 1) :+ new Layer(name, numberOfNeurons) :+ layers.last
   }
 
   def getLayer(i: Int) = layers(i)
@@ -102,7 +105,7 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
   }
 
   def printSamples() {
-    System.out.println(inputSamples + "->" + outputSamples)
+    info(inputSamples + "\n->\n" + outputSamples)
   }
 
   def removeCV() {
@@ -154,10 +157,11 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
 
   def initInputs(iS: Vector[Double]) {
     var neuron: Neuron = null
+    assert(inputLayer.size == iS.length + 1, "The input values do not match the number of input neurons.")
     for (iter <- 0 until iS.length)
       inputLayer.getNeuron(iter).output = iS(iter)
     // Bias
-    inputLayer.getNeuron(inputLayer.size).output = 1.0
+    inputLayer.getNeuron(iS.length).output = 1.0
   }
 
   /**
@@ -179,7 +183,9 @@ class Perceptron(numberInputNeurons: Int, hiddenLayers: Array[Int], numberOutput
     for ((neuron, data) <- outputLayer.neurons zip oS) {
       tmp = data - neuron.getOutput
       sum += tmp * tmp
+      //debug("Neuron output: " + neuron.getOutput + " vector: " + data + " sum error: " + sum)
     }
+    //debug("Error: " + sum / 2.0)
     sum / 2.0
   }
 

@@ -17,7 +17,7 @@ class Layer extends Logging {
     var newNeuron: Neuron = null
     size = numberOfNeurons
     this.label = label
-    for (i <- 0 to size)
+    for (i <- 0 until size)
       neurons=neurons :+ new Neuron(label + i)
     debug("Created Layer with label " + label + " containing " + neurons.length + " Neuron object(s).")
   }

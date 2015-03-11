@@ -57,6 +57,7 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
 
     assert(perceptron != null, "Perceptron not instantiated.")
     perceptron.initInputs(inputTemp)
+    debug("Perceptron: \n" + perceptron.toString)
     perceptron.propagate()
     outputTemp = perceptron.getOutput
     for (i <- 0 until numberOfOutputNeurons) {
@@ -106,11 +107,13 @@ class NeuralNetworkTrainer(numberOfInputNeurons: Int,
 
   def learn(): Unit = {
     perceptron.learn(1)
-    info("learn - Perceptron error level: " + perceptron.currentError)
+    //debug("learn - Perceptron error level: " + perceptron.currentError)
   }
 
   def test(): Unit = {
-    perceptron.test
-    info("test  - Perceptron error level: " + perceptron.currentError)
+    perceptron.test()
+    //info("test  - Perceptron error level: " + perceptron.currentError)
   }
+
+  def currentError(): Double = perceptron.currentError
 }

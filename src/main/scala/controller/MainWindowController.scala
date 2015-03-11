@@ -10,9 +10,10 @@ import util.Converters
 import scala.reflect.runtime.universe.typeOf
 import scalafx.Includes._
 import scalafx.application.JFXApp
+import scalafx.collections.ObservableBuffer
 import scalafx.event.ActionEvent
 import scalafx.scene.Scene
-import scalafx.scene.chart.LineChart
+import scalafx.scene.chart.{LineChart, XYChart}
 import scalafx.scene.control.{ComboBox, Label, TextField}
 import scalafxml.core.macros.sfxml
 import scalafxml.core.{DependenciesByType, FXMLView}
@@ -37,13 +38,16 @@ class MainWindowController(private val h1TextField: TextField,
                            private val counter: Label,
                            private val displayTotalIterationsLabel: Label,
                            private val functionComboBox: ComboBox[MathematicalFunction],
-                           private val mathematicalFunctions: MathematicalFunctions) extends Logging {
+                           private val mathematicalFunctions: MathematicalFunctions,
+                           private val errorLineChart: LineChart[Number, Number]) extends Logging {
   /**
    * A vector of integers to store the number of neurons per hidden layer.
    * This information is taken from the fields: h1TestField, h2TestField and h3TestField.
    */
   var hiddenLayers = Vector(1, 0, 0)
   var neuralNetworkTrainer: NeuralNetworkTrainer = null
+
+  var errorValues: IndexedSeq[(Double, Double)] = IndexedSeq.empty
 
   // Filling the combo box
   for (mathematicalFunction <- mathematicalFunctions.available) {
@@ -91,11 +95,22 @@ class MainWindowController(private val h1TextField: TextField,
       Converters.stringToPositiveDouble(delayTextField.delegate.text()))
 
     displayTotalIterationsLabel.setText("0")
-    //if (errorGraph != null) errorGraph.graph.clear
+
+    errorLineChart.getData.clear()
+    errorValues = IndexedSeq.empty
+  }
+
+  def displayError(errorValues: IndexedSeq[(Double, Double)]) = {
+    val data = ObservableBuffer(errorValues map { case (x, y) => XYChart.Data[Number, Number](x, y)})
+    val errorSerie = XYChart.Series[Number, Number]("Error", data)
+    errorLineChart.getData.clear()
+    errorLineChart.getData.add(errorSerie)
+    debug("Error serie: " + errorValues)
   }
 
   def onLearn(event: ActionEvent) {
     debug("Learn button")
+    val totalIterations: Int = Converters.stringToPositiveInt(displayTotalIterationsLabel.delegate.text())
     neuralNetworkTrainer.setSamples()
     Neuron.learningRate = Converters.stringToPositiveDouble(learningRateTextField.delegate.text())
     var max: Int = Converters.stringToPositiveInt(iterationsTextField.delegate.text())
@@ -105,13 +120,14 @@ class MainWindowController(private val h1TextField: TextField,
       neuralNetworkTrainer.learn()
       if (i % 10 == 0) {
         counter.setText(String.valueOf(max - i))
-        // Handle error graph here
+        errorValues = errorValues :+((totalIterations + i).toDouble, neuralNetworkTrainer.currentError())
+        displayError(errorValues)
       }
       neuralNetworkTrainer.test()
-      // Handle error graph here
+      // Handle error graph here for test error (second series)
     }
     // Update total iterations
-    displayTotalIterationsLabel.setText(String.valueOf(Converters.stringToPositiveInt(displayTotalIterationsLabel.delegate.text()) + max))
+    displayTotalIterationsLabel.setText(String.valueOf(totalIterations + max))
     disableDuringLearning(false)
 
     managedFunctionLineChart = new ManageFunctionLineChart(functionLineChart,
@@ -186,7 +202,7 @@ object ScalaFXML extends JFXApp {
 
   stage = new JFXApp.PrimaryStage() {
     title = resources.getString("neuralnetwork.window.title")
-    scene = new Scene(root){
+    scene = new Scene(root) {
       stylesheets.add("view/css/lineChart.css")
     }
   }
